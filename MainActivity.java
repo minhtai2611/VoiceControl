@@ -3,10 +3,10 @@ package com.example.tai.myapplication;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,21 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Locale;
-
-import static com.example.tai.myapplication.BuildConfig.*;
 
 public class MainActivity extends AppCompatActivity
         implements TextToSpeech.OnInitListener{
@@ -51,6 +46,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
+    //Text to speak required functions blocks
+
     @Override
     public void onInit(int status){
         if (status == TextToSpeech.SUCCESS) {
@@ -79,6 +77,9 @@ public class MainActivity extends AppCompatActivity
         tts.speak(text,TextToSpeech.QUEUE_FLUSH,null);
 
     }
+
+    //End Text to Speak Required functions block
+
     private void promptSpeechInput() {
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -108,8 +109,11 @@ public class MainActivity extends AppCompatActivity
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String userQuery = result.get(0);
                     txtIN.setText(userQuery);
+
+                    //Dialogflow interaction
                     RetrieveFeedTask task=new RetrieveFeedTask();
                     task.execute(userQuery);
+                    //Dialogflow interaction
                 }
                 break;
             }
